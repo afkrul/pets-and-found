@@ -10,6 +10,6 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:lo
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 // Private API routes for authenticated users
-Route::middleware(['api', 'auth:sanctum'])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::resource('pets', PetController::class);
 });

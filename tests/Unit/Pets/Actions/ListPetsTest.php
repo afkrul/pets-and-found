@@ -5,6 +5,7 @@ namespace Tests\Unit\Pets\Actions;
 use App\Actions\Pets\ListPets;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
 
 class ListPetsTest extends TestCase

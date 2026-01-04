@@ -22,6 +22,7 @@ class RegisterApiTest extends TestCase
             ->assertJsonStructure(['data' => ['access_token']]);
         $this->assertDatabaseHas('users', ['email' => 'testuser@example.com']);
     }
+
     public function test_registration_fails_with_missing_fields()
     {
         $response = $this->postJson('/api/register', []);

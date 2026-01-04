@@ -15,9 +15,6 @@ class AuthController extends Controller
     /**
      * Register a new user and return a token.
      *
-     * @param \App\Http\Requests\Auth\RegisterRequest $request
-     * @param \App\Actions\Auth\Register $register
-     * @param \App\Actions\Auth\CreateToken $createToken
      * @return \Illuminate\Http\Response
      */
     public function register(RegisterRequest $request, Register $register, CreateToken $createToken)
@@ -31,9 +28,6 @@ class AuthController extends Controller
     /**
      * Login a user and return a token.
      *
-     * @param \App\Http\Requests\Auth\LoginRequest $request
-     * @param \App\Actions\Auth\Login $login
-     * @param \App\Actions\Auth\CreateToken $createToken
      *
      * @return \Illuminate\Http\Response
      *
@@ -54,7 +48,6 @@ class AuthController extends Controller
     /**
      * Revoke the current user's access token.
      *
-     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */

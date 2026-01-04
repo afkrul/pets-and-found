@@ -7,13 +7,10 @@ use Illuminate\Support\Facades\Hash;
 
 class Login
 {
-
     /**
      * Attempt to find an user with the given credentials.
      *
-     * @param array $data The user credentials.
-     *
-     * @return \App\Models\User|null
+     * @param  array  $data  The user credentials.
      */
     public function __invoke(array $data): ?User
     {
@@ -23,9 +20,7 @@ class Login
     /**
      * Check if the given user credentials match with a user in the database.
      *
-     * @param array $data The user credentials.
-     *
-     * @return \App\Models\User|null
+     * @param  array  $data  The user credentials.
      */
     private function checkUserCredentials(array $data): ?User
     {

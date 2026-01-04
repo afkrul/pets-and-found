@@ -17,12 +17,11 @@ class ListPetTest extends TestCase
             new \App\Models\Pet(['name' => 'Kitty']),
         ]);
 
-        $action = \Mockery::mock(ListPet::class);
-        $action->shouldReceive('__invoke')
-            ->once()
-            ->with($user)
+        $user->shouldReceive('getAttribute')
+            ->with('pets')
             ->andReturn($pets);
 
+        $action = new ListPet();
         $result = $action($user);
         $this->assertCount(3, $result);
         $this->assertEquals(['Buddy', 'Max', 'Kitty'], $result->pluck('name')->values()->toArray());

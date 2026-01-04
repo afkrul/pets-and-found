@@ -21,6 +21,3 @@ To run unit and feature tests:
 ```sh
 php artisan test
 ```
-
-
-

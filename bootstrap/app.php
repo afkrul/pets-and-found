@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->api(append: [
-            \Illuminate\Routing\Middleware\ThrottleRequests::class,
+            'throttle:60,1',
             HandleCors::class,
         ]);
     })

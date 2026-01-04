@@ -10,7 +10,7 @@ class Register
     /**
      * Registers a new user.
      *
-     * @param array $data user data
+     * @param  array  $data  user data
      * @return User new user instance
      */
     public function __invoke(array $data): User

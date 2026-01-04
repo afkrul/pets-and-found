@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 class ListPets
 {
     /**
-     * Fetch all pets belonging to a user
+     * Return a collection of all pets for a user
      */
     public function __invoke(User $user): Collection
     {

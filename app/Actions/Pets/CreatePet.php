@@ -8,9 +8,11 @@ use App\Models\User;
 class CreatePet
 {
     /**
-     * Create a new pet
+     * Create a new pet belonging to a user
      *
-     * @param  array  $petData
+     * @param  User  $user  The user to create a pet for
+     * @param  array  $petData  The data to create the pet with
+     * @return Pet The created pet
      */
     public function __invoke(User $user, $petData): Pet
     {

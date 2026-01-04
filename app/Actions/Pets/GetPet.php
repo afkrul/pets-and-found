@@ -8,7 +8,11 @@ use App\Models\User;
 class GetPet
 {
     /**
-     * Fetch a pet belonging to a user
+     * Get a pet belonging to a user
+     *
+     * @param  User  $user  The user to get the pet from
+     * @param  Pet  $pet  The pet to get
+     * @return Pet The pet
      */
     public function __invoke(User $user, Pet $pet): Pet
     {

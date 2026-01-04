@@ -6,7 +6,7 @@ use App\Actions\Pets\ListPet;
 use App\Models\User;
 use Tests\TestCase;
 
-class ListPetTest extends TestCase
+class ListPetsTest extends TestCase
 {
     public function test_list_pet_action_returns_pets()
     {

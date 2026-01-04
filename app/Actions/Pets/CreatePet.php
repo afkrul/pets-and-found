@@ -14,7 +14,7 @@ class CreatePet
      * @param  array  $petData  The data to create the pet with
      * @return Pet The created pet
      */
-    public function __invoke(User $user, $petData): Pet
+    public function __invoke(User $user, array $petData): Pet
     {
         return $user->pets()->create($petData);
     }

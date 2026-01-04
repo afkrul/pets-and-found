@@ -26,7 +26,7 @@ class AuthActionsTest extends TestCase
         $this->assertTrue(Hash::check('unitpassword', $user->password));
     }
 
-    public function test_login_action_returns_token_on_valid_credentials()
+    public function test_login_action_returns_user_on_valid_credentials()
     {
         $user = User::factory()->create([
             'email' => 'unitlogin@example.com',
@@ -38,11 +38,12 @@ class AuthActionsTest extends TestCase
             'password' => 'unitpassword',
         ]);
         $this->assertInstanceOf(User::class, $result);
+        $this->assertEquals($user->id, $result->id);
     }
 
     public function test_login_action_returns_null_on_invalid_credentials()
     {
-        $user = User::factory()->create([
+        User::factory()->create([
             'email' => 'unitfail@example.com',
             'password' => bcrypt('unitpassword'),
         ]);

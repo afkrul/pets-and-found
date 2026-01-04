@@ -12,6 +12,14 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    /**
+     * Register a new user and return a token.
+     *
+     * @param \App\Http\Requests\Auth\RegisterRequest $request
+     * @param \App\Actions\Auth\Register $register
+     * @param \App\Actions\Auth\CreateToken $createToken
+     * @return \Illuminate\Http\Response
+     */
     public function register(RegisterRequest $request, Register $register, CreateToken $createToken)
     {
         $user = $register($request->validated());
@@ -20,6 +28,17 @@ class AuthController extends Controller
         return (new TokenResource(['access_token' => $token]))->response()->setStatusCode(201);
     }
 
+    /**
+     * Login a user and return a token.
+     *
+     * @param \App\Http\Requests\Auth\LoginRequest $request
+     * @param \App\Actions\Auth\Login $login
+     * @param \App\Actions\Auth\CreateToken $createToken
+     *
+     * @return \Illuminate\Http\Response
+     *
+     * @throws \Illuminate\Auth\AuthenticationException
+     */
     public function login(LoginRequest $request, Login $login, CreateToken $createToken)
     {
         $user = $login($request->validated());
@@ -32,6 +51,13 @@ class AuthController extends Controller
         return new TokenResource(['access_token' => $token]);
     }
 
+    /**
+     * Revoke the current user's access token.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

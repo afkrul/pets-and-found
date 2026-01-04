@@ -13,11 +13,13 @@ class LogoutApiTest extends TestCase
     public function test_authenticated_user_can_logout()
     {
         $user = User::factory()->create();
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        $response = $this->withHeader('Authorization', 'Bearer '.$token)
-            ->postJson('/api/logout');
-
+        $response = $this->actingAsApi($user)->postJson('/api/logout');
         $response->assertOk()->assertJson(['message' => 'Logged out']);
+    }
+
+    public function test_unauthenticated_user_cannot_logout()
+    {
+        $response = $this->postJson('/api/logout');
+        $response->assertUnauthorized();
     }
 }

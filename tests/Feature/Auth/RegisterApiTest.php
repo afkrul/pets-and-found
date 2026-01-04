@@ -22,4 +22,46 @@ class RegisterApiTest extends TestCase
             ->assertJsonStructure(['data' => ['access_token']]);
         $this->assertDatabaseHas('users', ['email' => 'testuser@example.com']);
     }
+    public function test_registration_fails_with_missing_fields()
+    {
+        $response = $this->postJson('/api/register', []);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['name', 'email', 'password']);
+    }
+
+    public function test_registration_fails_with_invalid_email()
+    {
+        $response = $this->postJson('/api/register', [
+            'name' => 'Test User',
+            'email' => 'not-an-email',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['email']);
+    }
+
+    public function test_registration_fails_with_short_password()
+    {
+        $response = $this->postJson('/api/register', [
+            'name' => 'Test User',
+            'email' => 'testuser2@example.com',
+            'password' => 'short',
+            'password_confirmation' => 'short',
+        ]);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['password']);
+    }
+
+    public function test_registration_fails_with_password_mismatch()
+    {
+        $response = $this->postJson('/api/register', [
+            'name' => 'Test User',
+            'email' => 'testuser3@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'differentpassword',
+        ]);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['password']);
+    }
 }

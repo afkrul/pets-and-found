@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\Hash;
 
 class Login
 {
+
     /**
-     * Log in a user with the given credentials and return an authentication token
-     * If the credentials are invalid, return null
+     * Attempt to find an user with the given credentials.
      *
-     * @return string|null
+     * @param array $data The user credentials.
+     *
+     * @return \App\Models\User|null
      */
     public function __invoke(array $data): ?User
     {
@@ -19,7 +21,11 @@ class Login
     }
 
     /**
-     * Check if the given user credentials are valid
+     * Check if the given user credentials match with a user in the database.
+     *
+     * @param array $data The user credentials.
+     *
+     * @return \App\Models\User|null
      */
     private function checkUserCredentials(array $data): ?User
     {

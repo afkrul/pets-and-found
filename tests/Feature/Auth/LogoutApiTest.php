@@ -15,7 +15,7 @@ class LogoutApiTest extends TestCase
         $user = User::factory()->create();
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+        $response = $this->withHeader('Authorization', 'Bearer '.$token)
             ->postJson('/api/logout');
 
         $response->assertOk()->assertJson(['message' => 'Logged out']);

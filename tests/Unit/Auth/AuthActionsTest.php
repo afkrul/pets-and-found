@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Auth;
 
-use App\Actions\Auth\Register;
 use App\Actions\Auth\Login;
+use App\Actions\Auth\Register;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AuthActionsTest extends TestCase
@@ -15,7 +15,7 @@ class AuthActionsTest extends TestCase
 
     public function test_register_action_creates_user()
     {
-        $action = new Register();
+        $action = new Register;
         $user = $action([
             'name' => 'Unit User',
             'email' => 'unituser@example.com',
@@ -32,7 +32,7 @@ class AuthActionsTest extends TestCase
             'email' => 'unitlogin@example.com',
             'password' => bcrypt('unitpassword'),
         ]);
-        $action = new Login();
+        $action = new Login;
         $result = $action([
             'email' => 'unitlogin@example.com',
             'password' => 'unitpassword',
@@ -46,7 +46,7 @@ class AuthActionsTest extends TestCase
             'email' => 'unitfail@example.com',
             'password' => bcrypt('unitpassword'),
         ]);
-        $action = new Login();
+        $action = new Login;
         $result = $action([
             'email' => 'unitfail@example.com',
             'password' => 'wrongpassword',

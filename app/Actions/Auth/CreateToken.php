@@ -8,9 +8,6 @@ class CreateToken
 {
     /**
      * Generate a plain text token for the given user.
-     *
-     * @param  User $user
-     * @return string
      */
     public function __invoke(User $user): string
     {

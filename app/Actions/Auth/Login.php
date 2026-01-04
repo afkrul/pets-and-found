@@ -11,7 +11,6 @@ class Login
      * Log in a user with the given credentials and return an authentication token
      * If the credentials are invalid, return null
      *
-     * @param array $data
      * @return string|null
      */
     public function __invoke(array $data): ?User
@@ -21,9 +20,6 @@ class Login
 
     /**
      * Check if the given user credentials are valid
-     *
-     * @param array $data
-     * @return User|null
      */
     private function checkUserCredentials(array $data): ?User
     {
@@ -31,6 +27,7 @@ class Login
         if ($user && Hash::check($data['password'], $user->password)) {
             return $user;
         }
+
         return null;
     }
 }

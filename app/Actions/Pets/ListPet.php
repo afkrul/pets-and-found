@@ -5,7 +5,7 @@ namespace App\Actions\Pets;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
-class ListPet
+class ListPets
 {
     /**
      * List all pets for a user

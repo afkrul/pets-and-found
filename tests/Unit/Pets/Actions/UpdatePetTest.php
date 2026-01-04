@@ -18,8 +18,6 @@ class UpdatePetTest extends TestCase
             ->once()
             ->with($updateData)
             ->andReturn($pet);
-        $pet->name = 'Max';
-        $pet->notes = 'Very friendly';
 
         $action = new UpdatePet;
         $updatedPet = $action($pet, $updateData);

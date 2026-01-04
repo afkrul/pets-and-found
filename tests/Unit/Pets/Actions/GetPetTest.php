@@ -19,7 +19,7 @@ class GetPetTest extends TestCase
             ->with(1)
             ->andReturn($pet);
 
-        $foundPet = $action($user, $pet);
+        $foundPet = $action($user, $pet->id);
         $this->assertEquals(1, $foundPet->id);
         $this->assertEquals('Buddy', $foundPet->name);
     }

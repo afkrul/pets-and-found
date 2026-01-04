@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Actions\Pets\CreatePet;
 use App\Actions\Pets\DeletePet;
 use App\Actions\Pets\GetPet;
-use App\Actions\Pets\ListPet;
+use App\Actions\Pets\ListPets;
 use App\Actions\Pets\UpdatePet;
+use App\Http\Requests\Pets\DestroyPetRequest;
+use App\Http\Requests\Pets\ShowPetRequest;
 use App\Http\Requests\Pets\StorePetRequest;
 use App\Http\Requests\Pets\UpdatePetRequest;
 use App\Models\Pet;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PetController extends Controller
@@ -19,10 +22,10 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FormRequest $request, ListPet $listPet)
+    public function index(FormRequest $request, ListPets $listPets)
     {
         $user = $request->user();
-        $fetchedPets = $listPet($user);
+        $fetchedPets = $listPets($user);
 
         return response()->json($fetchedPets);
     }
@@ -32,7 +35,7 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(FormRequest $request, Pet $pet, GetPet $getPet)
+    public function show(ShowPetRequest $request, Pet $pet, GetPet $getPet)
     {
         $user = $request->user();
         $fetchedPet = $getPet($user, $pet);
@@ -72,7 +75,7 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FormRequest $request, Pet $pet, DeletePet $deletePet)
+    public function destroy(DestroyPetRequest $request, Pet $pet, DeletePet $deletePet)
     {
         $user = $request->user();
         $deletePet($user, $pet);

@@ -8,7 +8,7 @@ use App\Models\User;
 class CreatePet
 {
     /**
-     * Create a new pet for a user
+     * Create a new pet
      *
      * @param  array  $petData
      */

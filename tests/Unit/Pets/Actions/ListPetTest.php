@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Pets\Actions;
 
-use App\Actions\Pets\ListPet;
+use App\Actions\Pets\ListPets;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -21,7 +21,7 @@ class ListPetsTest extends TestCase
             ->with('pets')
             ->andReturn($pets);
 
-        $action = new ListPet();
+        $action = new ListPets;
         $result = $action($user);
         $this->assertCount(3, $result);
         $this->assertEquals(['Buddy', 'Max', 'Kitty'], $result->pluck('name')->values()->toArray());

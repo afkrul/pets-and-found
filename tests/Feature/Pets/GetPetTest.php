@@ -33,7 +33,7 @@ class GetPetTest extends TestCase
         $this->actingAsApi($user);
 
         $response = $this->getJson(route('pets.show', $pet));
-        $response->assertNotFound();
+        $response->assertForbidden();
     }
 
     public function test_guest_cannot_get_pet()

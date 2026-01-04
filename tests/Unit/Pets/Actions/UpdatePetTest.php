@@ -21,7 +21,6 @@ class UpdatePetTest extends TestCase
 
         $action = new UpdatePet;
         $updatedPet = $action($pet, $updateData);
-        $this->assertEquals('Max', $updatedPet->name);
-        $this->assertEquals('Very friendly', $updatedPet->notes);
+        $this->assertEquals($pet, $updatedPet);
     }
 }

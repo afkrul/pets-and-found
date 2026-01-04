@@ -28,4 +28,16 @@ class DeletePetTest extends TestCase
         $response = $this->deleteJson(route('pets.destroy', $pet));
         $response->assertUnauthorized();
     }
+
+    public function test_user_cannot_delete_another_users_pet()
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $pet = Pet::factory()->for($otherUser)->create();
+        $this->actingAsApi($user);
+
+        $response = $this->deleteJson(route('pets.destroy', $pet));
+        $response->assertForbidden();
+        $this->assertDatabaseHas('pets', ['id' => $pet->id]);
+    }
 }

@@ -6,6 +6,7 @@ use App\Actions\Pets\ListPets;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
+use Illuminate\Database\Eloquent\Collection;
 
 class ListPetsTest extends TestCase
 {

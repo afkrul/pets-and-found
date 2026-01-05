@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class CreatePetTest extends TestCase
 {
-    public function test_create_pet_action_creates_pet()
+    public function test_create_pet_action_creates_pet(): void
     {
         $user = \Mockery::mock(User::class);
         $petData = [

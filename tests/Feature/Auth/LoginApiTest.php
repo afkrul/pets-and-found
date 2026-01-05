@@ -10,7 +10,7 @@ class LoginApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_login_via_api()
+    public function test_user_can_login_via_api(): void
     {
         $user = User::factory()->create([
             'email' => 'apitest@example.com',
@@ -26,7 +26,7 @@ class LoginApiTest extends TestCase
             ->assertJsonStructure(['data' => ['access_token']]);
     }
 
-    public function test_user_cannot_login_with_invalid_credentials()
+    public function test_user_cannot_login_with_invalid_credentials(): void
     {
         $user = User::factory()->create([
             'email' => 'wrongpass@example.com',

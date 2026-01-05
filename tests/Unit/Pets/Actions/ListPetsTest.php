@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class ListPetsTest extends TestCase
 {
-    public function test_list_pet_action_returns_pets()
+    public function test_list_pet_action_returns_pets(): void
     {
         $user = \Mockery::mock(User::class);
         $pets = new Collection([

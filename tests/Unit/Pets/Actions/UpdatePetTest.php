@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class UpdatePetTest extends TestCase
 {
-    public function test_update_pet_action_updates_pet()
+    public function test_update_pet_action_updates_pet(): void
     {
         $pet = \Mockery::mock(\App\Models\Pet::class)->makePartial();
         $updateData = [

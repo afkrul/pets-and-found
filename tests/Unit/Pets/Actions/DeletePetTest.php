@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class DeletePetTest extends TestCase
 {
-    public function test_delete_pet_action_deletes_pet()
+    public function test_delete_pet_action_deletes_pet(): void
     {
         $pet = \Mockery::mock(\App\Models\Pet::class)->makePartial();
         $user = \Mockery::mock(User::class)->makePartial();

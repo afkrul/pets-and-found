@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class GetPetTest extends TestCase
 {
-    public function test_get_pet_action_returns_pet()
+    public function test_get_pet_action_returns_pet(): void
     {
         $action = new GetPet;
         $user = \Mockery::mock(\App\Models\User::class)->makePartial();

@@ -11,7 +11,7 @@ class DeletePetTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_authenticated_user_can_delete_pet()
+    public function test_authenticated_user_can_delete_pet(): void
     {
         $user = User::factory()->create();
         $pet = Pet::factory()->for($user)->create();
@@ -22,14 +22,14 @@ class DeletePetTest extends TestCase
         $this->assertDatabaseMissing('pets', ['id' => $pet->id]);
     }
 
-    public function test_guest_cannot_delete_pet()
+    public function test_guest_cannot_delete_pet(): void
     {
         $pet = Pet::factory()->for(User::factory()->create())->create();
         $response = $this->deleteJson(route('pets.destroy', $pet));
         $response->assertUnauthorized();
     }
 
-    public function test_user_cannot_delete_another_users_pet()
+    public function test_user_cannot_delete_another_users_pet(): void
     {
         $user = User::factory()->create();
         $otherUser = User::factory()->create();

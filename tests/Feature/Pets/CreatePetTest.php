@@ -10,7 +10,7 @@ class CreatePetTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_authenticated_user_can_create_pet()
+    public function test_authenticated_user_can_create_pet(): void
     {
         $user = User::factory()->create();
         $this->actingAsApi($user);
@@ -34,7 +34,7 @@ class CreatePetTest extends TestCase
         ]);
     }
 
-    public function test_guest_cannot_create_pet()
+    public function test_guest_cannot_create_pet(): void
     {
         $petData = [
             'name' => 'Kitty',

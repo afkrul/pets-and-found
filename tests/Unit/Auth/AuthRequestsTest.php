@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class AuthRequestsTest extends TestCase
 {
-    public function test_register_request_rules()
+    public function test_register_request_rules(): void
     {
         $request = new RegisterRequest;
         $rules = $request->rules();
@@ -17,7 +17,7 @@ class AuthRequestsTest extends TestCase
         $this->assertArrayHasKey('password', $rules);
     }
 
-    public function test_login_request_rules()
+    public function test_login_request_rules(): void
     {
         $request = new LoginRequest;
         $rules = $request->rules();

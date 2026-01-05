@@ -13,7 +13,7 @@ class AuthActionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_register_action_creates_user()
+    public function test_register_action_creates_user(): void
     {
         $action = new Register;
         $user = $action([
@@ -26,7 +26,7 @@ class AuthActionsTest extends TestCase
         $this->assertTrue(Hash::check('unitpassword', $user->password));
     }
 
-    public function test_login_action_returns_user_on_valid_credentials()
+    public function test_login_action_returns_user_on_valid_credentials(): void
     {
         $user = User::factory()->create([
             'email' => 'unitlogin@example.com',
@@ -41,7 +41,7 @@ class AuthActionsTest extends TestCase
         $this->assertEquals($user->id, $result->id);
     }
 
-    public function test_login_action_returns_null_on_invalid_credentials()
+    public function test_login_action_returns_null_on_invalid_credentials(): void
     {
         User::factory()->create([
             'email' => 'unitfail@example.com',

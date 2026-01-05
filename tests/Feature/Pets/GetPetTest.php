@@ -11,7 +11,7 @@ class GetPetTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_authenticated_user_can_get_pet()
+    public function test_authenticated_user_can_get_pet(): void
     {
         $user = User::factory()->create();
         $pet = Pet::factory()->for($user)->create();
@@ -25,7 +25,7 @@ class GetPetTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_cannot_get_other_users_pet()
+    public function test_authenticated_user_cannot_get_other_users_pet(): void
     {
         $user = User::factory()->create();
         $otherUser = User::factory()->create();
@@ -36,7 +36,7 @@ class GetPetTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_guest_cannot_get_pet()
+    public function test_guest_cannot_get_pet(): void
     {
         $pet = Pet::factory()->for(User::factory()->create())->create();
         $response = $this->getJson(route('pets.show', $pet));

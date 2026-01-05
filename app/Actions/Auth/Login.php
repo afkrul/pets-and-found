@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 class Login
 {
     /**
-     * Attempt to find an user with the given credentials.
+     * Attempt to find a user with the given credentials.
      *
      * @param  array  $data  The user credentials.
      */
@@ -25,8 +25,16 @@ class Login
     private function checkUserCredentials(array $data): ?User
     {
         $user = User::where('email', $data['email'])->first();
-        if ($user && Hash::check($data['password'], $user->password)) {
-            return $user;
+        $password = $data['password'] ?? '';
+
+        // Always perform a hash check to mitigate timing attacks
+        if ($user) {
+            if (Hash::check($password, $user->password)) {
+                return $user;
+            }
+        } else {
+            // Use a dummy hash to ensure timing is consistent
+            Hash::check($password, '$2y$10$'.str_repeat('a', 53));
         }
 
         return null;

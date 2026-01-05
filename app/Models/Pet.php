@@ -15,6 +15,7 @@ class Pet extends Model
         'type',
         'breed',
         'notes',
+        'qr_code',
     ];
 
     public function user(): BelongsTo

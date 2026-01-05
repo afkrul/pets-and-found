@@ -38,4 +38,9 @@ class PetPolicy
     {
         return $user->id === $pet->user_id;
     }
+
+    public function generateQrCode(User $user, Pet $pet): bool
+    {
+        return $user->id === $pet->user_id;
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\QrCodeController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication routes
@@ -12,4 +13,5 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 // Private API routes for authenticated users
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('pets', PetController::class);
+    Route::get('/pets/{pet}/qr-code', [QrCodeController::class, 'getQrCode']);
 });

@@ -12,6 +12,10 @@ class LogoutApiTest extends TestCase
 
     public function test_authenticated_user_can_logout(): void
     {
+        // Force Sanctum guard for this test
+        config(['auth.defaults.guard' => 'sanctum']);
+        config(['sanctum.stateful' => []]);
+
         $user = User::factory()->create();
         $token = $user->createToken('test_token')->plainTextToken;
         $response = $this->withToken($token)->postJson('/api/logout');

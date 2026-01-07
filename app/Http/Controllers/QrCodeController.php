@@ -11,8 +11,6 @@ class QrCodeController extends Controller
 {
     /**
      * Return a QR code for a given pet.
-     *
-     *
      * @return QrCodeDownloadResponse
      */
     public function getQrCode(ShowQrCodeRequest $request, Pet $pet, GenerateQrCode $generateQrCode)

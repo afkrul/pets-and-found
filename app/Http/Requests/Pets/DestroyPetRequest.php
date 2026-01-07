@@ -8,9 +8,10 @@ class DestroyPetRequest extends FormRequest
 {
     public function authorize(): bool
     {
+        $user = $this->user();
         $pet = $this->route('pet');
 
-        return $pet && $this->user()->can('delete', $pet);
+        return $pet && $user->can('delete', $pet);
     }
 
     public function rules(): array

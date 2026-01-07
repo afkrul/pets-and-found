@@ -5,12 +5,21 @@ namespace App\Actions\QrCode;
 use App\Models\Pet;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Facades\Log;
 use App\Data\QrCodeResult;
 
 
 class GenerateQrCode
 {
+    /**
+     * Generate a QR code for the given pet.
+     *
+     * If the pet does not have a QR code, generate a new one.
+     * Generate an SVG QR code for the pet's QR code.
+     * Return a QrCodeResult containing the QR code, SVG as bytes, the mime type, and the filename.
+     *
+     * @param \App\Models\Pet $pet
+     * @return \App\Data\QrCodeResult
+     */
     public function __invoke(Pet $pet): QrCodeResult
     {
         if (!$pet->qr_code) {
@@ -18,8 +27,9 @@ class GenerateQrCode
             $pet->save();
         }
 
-        $payload = url("/qr/{$pet->qr_code}");
-        
+        $frontendUrl = config('qrcode.frontend_url');
+        $payload = "{$frontendUrl}/pet?code={$pet->qr_code}";
+
         $svg = QrCode::format('svg')
             ->size(512)
             ->margin(1)

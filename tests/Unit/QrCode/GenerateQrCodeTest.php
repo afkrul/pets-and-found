@@ -16,6 +16,7 @@ class GenerateQrCodeTest extends TestCase
 
     public function test_generates_and_persists_qr_code_when_missing(): void
     {
+        config(['qrcode.frontend_url' => 'http://localhost:5173']);
         $user = User::factory()->create();
         $pet = Pet::factory()->for($user)->create(['qr_code' => null]);
 
@@ -24,7 +25,8 @@ class GenerateQrCodeTest extends TestCase
             ->once()
             ->with(Mockery::on(function ($payload) use (&$capturedPayload) {
                 $capturedPayload = $payload;
-                return str_contains($payload, '/qr/');
+
+                return str_contains($payload, '/pet?code=');
             }))
             ->andReturn('<svg>qr</svg>');
 
@@ -38,11 +40,13 @@ class GenerateQrCodeTest extends TestCase
         $this->assertSame('<svg>qr</svg>', $result->bytes);
         $this->assertSame('image/svg+xml', $result->mime);
         $this->assertSame("pet-{$pet->id}-qr.svg", $result->filename);
-        $this->assertStringContainsString("/qr/{$result->code}", $capturedPayload);
+        $this->assertStringContainsString("http://localhost:5173/pet?code={$result->code}", $capturedPayload);
     }
 
     public function test_reuses_existing_qr_code(): void
     {
+        config(['qrcode.frontend_url' => 'http://localhost:5173']);
+
         $user = User::factory()->create();
         $pet = Pet::factory()->for($user)->create(['qr_code' => 'EXISTINGCODE']);
 
@@ -51,7 +55,8 @@ class GenerateQrCodeTest extends TestCase
             ->once()
             ->with(Mockery::on(function ($payload) use (&$capturedPayload) {
                 $capturedPayload = $payload;
-                return str_contains($payload, '/qr/');
+
+                return str_contains($payload, '/pet?code=');
             }))
             ->andReturn('<svg>qr</svg>');
 
@@ -62,6 +67,6 @@ class GenerateQrCodeTest extends TestCase
 
         $this->assertSame('EXISTINGCODE', $result->code);
         $this->assertSame('EXISTINGCODE', $pet->qr_code);
-        $this->assertStringContainsString('/qr/EXISTINGCODE', $capturedPayload);
+        $this->assertStringContainsString('http://localhost:5173/pet?code=EXISTINGCODE', $capturedPayload);
     }
 }

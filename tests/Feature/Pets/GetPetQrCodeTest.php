@@ -15,15 +15,18 @@ class GetPetQrCodeTest extends TestCase
 
     public function test_owner_can_download_qr_code(): void
     {
+        config(['qrcode.frontend_url' => 'http://localhost:5173']);
+
         $user = User::factory()->create();
-        $pet = Pet::factory()->for($user)->create(['qr_code' => null]);
+        $pet = Pet::factory()->for($user)->create();
 
         $capturedPayload = '';
         QrCode::shouldReceive('format->size->margin->errorCorrection->generate')
             ->once()
             ->with(Mockery::on(function ($payload) use (&$capturedPayload) {
                 $capturedPayload = $payload;
-                return str_contains($payload, '/qr/');
+
+                return str_contains($payload, '/pet?code=');
             }))
             ->andReturn('<svg>qr</svg>');
 
@@ -33,10 +36,11 @@ class GetPetQrCodeTest extends TestCase
 
         $response->assertOk();
         $response->assertHeader('Content-Type', 'image/svg+xml');
-        $response->assertHeader('Content-Disposition', 'attachment; filename="pet-' . $pet->id . '-qr.svg"');
+        $response->assertHeader('Content-Disposition', 'attachment; filename="pet-'.$pet->id.'-qr.svg"');
         $this->assertSame('<svg>qr</svg>', $response->getContent());
-        $this->assertNotNull($pet->fresh()->qr_code);
-        $this->assertStringContainsString('/qr/' . $pet->fresh()->qr_code, $capturedPayload);
+        $this->assertNotNull($pet->qr_code);
+        $this->assertStringContainsString("/pet?code={$pet->qr_code}", $capturedPayload);
+        $this->assertStringContainsString('http://localhost:5173', $capturedPayload);
     }
 
     public function test_user_cannot_download_qr_code_for_someone_elses_pet(): void

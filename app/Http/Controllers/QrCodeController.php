@@ -4,19 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Actions\QrCode\GenerateQrCode;
 use App\Http\Requests\QrCode\ShowQrCodeRequest;
-use App\Models\Pet;
 use App\Http\Responses\QrCodeDownloadResponse;
-
+use App\Models\Pet;
 
 class QrCodeController extends Controller
 {
-
     /**
      * Return a QR code for a given pet.
      *
-     * @param ShowQrCodeRequest $request
-     * @param Pet $pet
-     * @param GenerateQrCode $generateQrCode
      *
      * @return QrCodeDownloadResponse
      */

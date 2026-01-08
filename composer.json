@@ -3,7 +3,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -50,6 +53,11 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
+        "serve": "@php artisan serve",
+        "phpunit": "@php vendor\\bin\\phpunit",
+        "lint": "vendor\\bin\\pint",
+        "hooks:install": "git config core.hooksPath .githooks",
+        "hooks:uninstall": "git config --unset core.hooksPath || true",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

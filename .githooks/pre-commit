@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Pre-commit hook: run PHP linter (Pint). Exit non-zero to prevent commit on failures.
+
+# Ensure vendor binaries are available
+if [ -f ./vendor/bin/pint ]; then
+  ./vendor/bin/pint --ansi
+  status=$?
+else
+  echo "Pint not found. Run 'composer install' first." >&2
+  exit 1
+fi
+
+if [ $status -ne 0 ]; then
+  echo "Code style check failed. Commit aborted." >&2
+  exit $status
+fi
+
+exit 0

@@ -21,3 +21,45 @@ To run unit and feature tests:
 ```sh
 php artisan test
 ```
+
+### Developer shortcuts
+
+To make common development tasks easier there are composer scripts available:
+
+- **Serve:** start the local server
+
+```sh
+composer run-script serve
+```
+
+- **Run tests:** execute the test suite (wrapper around `php artisan test`)
+
+```sh
+composer run-script test
+```
+
+- **Run PHPUnit directly:**
+
+```sh
+composer run-script phpunit
+```
+
+- **Lint / code style:** uses Laravel Pint
+
+```sh
+composer run-script lint
+```
+
+### Git hooks
+
+This repository includes a recommended git hooks directory `.githooks` containing a `pre-commit` hook that runs the `lint` check before commits. To enable these hooks for your repository run:
+
+```sh
+composer run-script hooks:install
+```
+
+If you ever want to restore the default git hooks behavior:
+
+```sh
+composer run-script hooks:uninstall
+```

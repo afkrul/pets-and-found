@@ -63,3 +63,20 @@ If you ever want to restore the default git hooks behavior:
 ```sh
 composer run-script hooks:uninstall
 ```
+
+### API Documentation (Swagger / OpenAPI)
+
+An OpenAPI (Swagger) specification is provided at `docs/openapi.yaml`.
+
+To view it locally with Swagger UI:
+
+- Option A: Use the built-in route (serves the YAML file):
+
+```sh
+php artisan serve
+# then open http://127.0.0.1:8000/api/docs/openapi.yaml in any Swagger UI instance
+```
+
+- Option B: Open the YAML in the online Swagger Editor: https://editor.swagger.io/ and paste the contents of `docs/openapi.yaml`.
+
+The spec documents all API endpoints, request/response schemas, and common error responses (200, 401, 403, 404, 422, 429).

@@ -1,0 +1,345 @@
+openapi: 3.1.0
+info:
+  title: Pets & Found API
+  version: 1.0.0
+  description: >-
+    API for the Pets & Found application. Public endpoints and authenticated
+    endpoints are documented below with expected request/response shapes and
+    error responses.
+servers:
+  - url: /api
+
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /login:
+    post:
+      summary: Login a user
+      description: Returns an authentication token (Sanctum)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          description: Too Many Requests (throttle)
+
+  /logout:
+    post:
+      summary: Logout the authenticated user
+      security:
+        - sanctum: []
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /pets:
+    get:
+      summary: List pets for authenticated user
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: List of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create a new pet
+      security:
+        - sanctum: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePetRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /pets/{pet}:
+    parameters:
+      - $ref: '#/components/parameters/petId'
+    get:
+      summary: Get a pet belonging to authenticated user
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: Pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden (not owner)
+        '404':
+          description: Not Found
+
+    put:
+      summary: Update a pet
+      security:
+        - sanctum: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePetRequest'
+      responses:
+        '200':
+          description: Updated pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      summary: Delete a pet
+      security:
+        - sanctum: []
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+  /pets/{pet}/qr-code:
+    get:
+      summary: Download QR code for a pet
+      security:
+        - sanctum: []
+      parameters:
+        - $ref: '#/components/parameters/petId'
+      responses:
+        '200':
+          description: PNG image of QR code
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not Found
+
+  /public/pets/{qrCode}:
+    get:
+      summary: Publicly fetch pet info by QR code
+      parameters:
+        - name: qrCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Public pet info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicPet'
+        '404':
+          description: Not Found
+
+components:
+  securitySchemes:
+    sanctum:
+      type: http
+      scheme: bearer
+
+  parameters:
+    petId:
+      name: pet
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  responses:
+    ValidationError:
+      description: Validation Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrors'
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+
+    ValidationErrors:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: object
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+
+    RegisterRequest:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+        breed:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        qr_code:
+          type: string
+
+    CreatePetRequest:
+      type: object
+      required: [name, type]
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        breed:
+          type: string
+        notes:
+          type: string
+
+    UpdatePetRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        breed:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+
+    PublicPet:
+      type: object
+      properties:
+        pet:
+          type: object
+          properties:
+            name:
+              type: string
+            type:
+              type: string
+            breed:
+              type: string
+              nullable: true
+            notes:
+              type: string
+              nullable: true
+        owner:
+          type: object
+          properties:
+            name:
+              type: string

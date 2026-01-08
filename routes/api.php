@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PublicPetController;
+use Illuminate\Support\Facades\File;
 use App\Http\Controllers\QrCodeController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Public endpoint to fetch basic pet info by qr code (no ids or contact details)
 Route::get('/public/pets/{qrCode}', [PublicPetController::class, 'show']);
+
+// Serve OpenAPI spec for local consumption (Swagger UI, etc.)
+Route::get('/docs/openapi.yaml', function () {
+    $path = base_path('docs/openapi.yaml');
+    return response()->file($path);
+});

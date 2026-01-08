@@ -7,7 +7,12 @@ use App\Models\Pet;
 class GetPublicPet
 {
     /**
-     * Retrieve a pet by its QR code for public access.
+     * Return a public pet by its QR code.
+     *
+     * @param  string  $qrCode  The pet's QR code
+     * @return Pet The pet
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function __invoke(string $qrCode): Pet
     {

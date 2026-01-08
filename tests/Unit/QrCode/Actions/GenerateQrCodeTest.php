@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\QrCode;
+namespace Tests\Unit\QrCode\Actions;
 
 use App\Actions\QrCode\GenerateQrCode;
 use App\Models\Pet;

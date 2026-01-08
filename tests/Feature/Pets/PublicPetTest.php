@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Pets;
 
 use App\Models\Pet;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class PublicPetFeatureTest extends TestCase
+class PublicPetTest extends TestCase
 {
     use RefreshDatabase;
 

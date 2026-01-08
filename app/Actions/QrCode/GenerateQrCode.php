@@ -9,10 +9,10 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class GenerateQrCode
 {
     /**
-     * Generate a QR code for the given pet.
+     * Generates a QR code for a given pet.
      *
-     * Generate an SVG QR code for the pet's QR code.
-     * Return a QrCodeResult containing the QR code, SVG markup as a string, the mime type, and the filename.
+     * @param  Pet  $pet  The pet to generate the QR code for.
+     * @return QrCodeResult The QR code result.
      */
     public function __invoke(Pet $pet): QrCodeResult
     {

@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Pets;
+namespace App\Http\Requests\QrCode;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DestroyPetRequest extends FormRequest
+class ShowQrCodeRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        $user = $this->user();
         $pet = $this->route('pet');
 
-        return $pet && $user->can('delete', $pet);
+        return $pet && $this->user()->can('generateQrCode', $pet);
     }
 
     public function rules(): array

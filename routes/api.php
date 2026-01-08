@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\PublicPetController;
 use App\Http\Controllers\QrCodeController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('pets', PetController::class);
     Route::get('/pets/{pet}/qr-code', [QrCodeController::class, 'getQrCode']);
 });
+
+// Public endpoint to fetch basic pet info by qr code (no ids or contact details)
+Route::get('/public/pets/{qrCode}', [PublicPetController::class, 'show']);

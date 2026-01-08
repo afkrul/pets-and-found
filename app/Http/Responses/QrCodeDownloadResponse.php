@@ -11,7 +11,7 @@ class QrCodeDownloadResponse implements Responsable
         protected QrCodeResult $result,
     ) {}
 
-    public function toResponse($request)
+    public function toResponse($request): \Illuminate\Http\Response
     {
         $disposition = $this->result->disposition;
 

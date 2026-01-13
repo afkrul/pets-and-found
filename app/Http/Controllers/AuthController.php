@@ -19,7 +19,7 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request, Register $register, CreateToken $createToken)
     {
-        $user = $register($request->validated());
+        $user = $register($request->dto());
         $token = $createToken($user);
 
         return (new TokenResource(['access_token' => $token]))->response()->setStatusCode(201);
@@ -35,7 +35,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request, Login $login, CreateToken $createToken)
     {
-        $user = $login($request->validated());
+        $user = $login($request->dto());
         if (! $user) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }

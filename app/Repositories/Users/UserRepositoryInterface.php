@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Users;
 
-use App\Models\User;
 use App\Data\Auth\RegisterData;
+use App\Models\User;
 
 interface UserRepositoryInterface
 {

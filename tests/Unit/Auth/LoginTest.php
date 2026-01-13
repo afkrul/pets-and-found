@@ -20,9 +20,9 @@ class LoginTest extends TestCase
 
         $repo = Mockery::mock(UserRepositoryInterface::class);
         $repo->shouldReceive('findByEmail')
-             ->once()
-             ->with('valid@example.com')
-             ->andReturn($user);
+            ->once()
+            ->with('valid@example.com')
+            ->andReturn($user);
 
         Auth::shouldReceive('login')->once()->with($user);
 
@@ -40,9 +40,9 @@ class LoginTest extends TestCase
 
         $repo = Mockery::mock(UserRepositoryInterface::class);
         $repo->shouldReceive('findByEmail')
-             ->once()
-             ->with('valid2@example.com')
-             ->andReturn($user);
+            ->once()
+            ->with('valid2@example.com')
+            ->andReturn($user);
 
         Auth::shouldReceive('login')->never();
 

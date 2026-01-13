@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use App\Repositories\Pets\PetRepositoryInterface;
 use App\Repositories\Pets\EloquentPetRepository;
-use App\Repositories\Users\UserRepositoryInterface;
+use App\Repositories\Pets\PetRepositoryInterface;
 use App\Repositories\Users\EloquentUserRepository;
+use App\Repositories\Users\UserRepositoryInterface;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

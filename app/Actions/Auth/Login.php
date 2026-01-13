@@ -2,17 +2,15 @@
 
 namespace App\Actions\Auth;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use App\Data\Auth\LoginData;
+use App\Models\User;
 use App\Repositories\Users\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class Login
 {
-    public function __construct(private UserRepositoryInterface $users)
-    {
-    }
+    public function __construct(private UserRepositoryInterface $users) {}
 
     public function __invoke(LoginData $data): ?User
     {

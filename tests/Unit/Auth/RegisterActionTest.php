@@ -18,11 +18,11 @@ class RegisterActionTest extends TestCase
 
         $repo = Mockery::mock(UserRepositoryInterface::class);
         $repo->shouldReceive('create')
-             ->once()
-             ->withArgs(function (RegisterData $data) {
-                 return $data->name === 'Repo User' && $data->email === 'repo@example.com' && $data->password === 'plainpass';
-             })
-             ->andReturn($user);
+            ->once()
+            ->withArgs(function (RegisterData $data) {
+                return $data->name === 'Repo User' && $data->email === 'repo@example.com' && $data->password === 'plainpass';
+            })
+            ->andReturn($user);
 
         $action = new Register($repo);
         $result = $action(new RegisterData('Repo User', 'repo@example.com', 'plainpass'));

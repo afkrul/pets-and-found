@@ -2,23 +2,16 @@
 
 namespace App\Actions\Auth;
 
+use App\Data\Auth\RegisterData;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Repositories\Users\UserRepositoryInterface;
 
 class Register
 {
-    /**
-     * Registers a new user.
-     *
-     * @param  array  $data  user data
-     * @return User new user instance
-     */
-    public function __invoke(array $data): User
+    public function __construct(private UserRepositoryInterface $users) {}
+
+    public function __invoke(RegisterData $data): User
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        return $this->users->create($data);
     }
 }

@@ -2,41 +2,26 @@
 
 namespace App\Actions\Auth;
 
+use App\Data\Auth\LoginData;
 use App\Models\User;
+use App\Repositories\Users\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class Login
 {
-    /**
-     * Attempt to find a user with the given credentials.
-     *
-     * @param  array  $data  The user credentials.
-     */
-    public function __invoke(array $data): ?User
-    {
-        return $this->checkUserCredentials($data);
-    }
+    public function __construct(private UserRepositoryInterface $users) {}
 
-    /**
-     * Check if the given user credentials match with a user in the database.
-     *
-     * @param  array  $data  The user credentials.
-     */
-    private function checkUserCredentials(array $data): ?User
+    public function __invoke(LoginData $data): ?User
     {
-        $user = User::where('email', $data['email'])->first();
-        $password = $data['password'] ?? '';
+        $user = $this->users->findByEmail($data->email);
 
-        // Always perform a hash check to mitigate timing attacks
-        if ($user) {
-            if (Hash::check($password, $user->password)) {
-                return $user;
-            }
-        } else {
-            // Use a dummy hash to ensure timing is consistent
-            Hash::check($password, '$2y$10$123somesillystring908e7hnbRJHxXVLeakoG8K30oukPsA.ztMG');
+        if (! $user || ! Hash::check($data->password, $user->password)) {
+            return null;
         }
 
-        return null;
+        Auth::login($user);
+
+        return $user;
     }
 }

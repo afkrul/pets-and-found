@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Data\Auth\RegisterData;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -18,5 +19,10 @@ class RegisterRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ];
+    }
+
+    public function dto(): RegisterData
+    {
+        return RegisterData::fromRequest($this);
     }
 }

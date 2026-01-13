@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Data\Auth\LoginData;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -17,5 +18,10 @@ class LoginRequest extends FormRequest
             'email' => 'required|email',
             'password' => 'required',
         ];
+    }
+
+    public function dto(): LoginData
+    {
+        return LoginData::fromRequest($this);
     }
 }

@@ -36,7 +36,7 @@ class PetController extends Controller
      */
     public function show(ShowPetRequest $request, Pet $pet, GetPet $get)
     {
-        $fetchedPet = $get($request->user(), $pet);
+        $fetchedPet = $get($pet);
 
         return new PetResource($fetchedPet);
     }
@@ -72,7 +72,7 @@ class PetController extends Controller
      */
     public function destroy(DestroyPetRequest $request, Pet $pet, DeletePet $delete)
     {
-        $delete($request->user(), $pet);
+        $delete($pet);
 
         return response()->noContent();
     }

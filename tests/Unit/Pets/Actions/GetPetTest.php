@@ -11,7 +11,6 @@ class GetPetTest extends TestCase
     public function test_get_pet_action_returns_pet(): void
     {
         $repo = \Mockery::mock(PetRepositoryInterface::class);
-        $user = \Mockery::mock(\App\Models\User::class)->makePartial();
         $pet = \Mockery::mock(\App\Models\Pet::class)->makePartial();
         $pet->id = 1;
         $pet->name = 'Buddy';
@@ -23,8 +22,14 @@ class GetPetTest extends TestCase
 
         $action = new GetPet($repo);
 
-        $foundPet = $action($user, $pet);
+        $foundPet = $action($pet);
         $this->assertEquals(1, $foundPet->id);
         $this->assertEquals('Buddy', $foundPet->name);
+    }
+
+    protected function tearDown(): void
+    {
+        \Mockery::close();
+        parent::tearDown();
     }
 }

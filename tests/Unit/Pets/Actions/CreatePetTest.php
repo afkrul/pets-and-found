@@ -46,4 +46,10 @@ class CreatePetTest extends TestCase
         $this->assertNotNull($result->qr_code);
         $this->assertNotEmpty($result->qr_code);
     }
+
+    protected function tearDown(): void
+    {
+        \Mockery::close();
+        parent::tearDown();
+    }
 }

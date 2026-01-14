@@ -3,7 +3,7 @@
 A simple stateless API created for studying Laravel's structure. The idea is to provide a backend for a service where users can register their pet details, generate a QR code, and, if someone finds the pet, scan the QR code to view information about the pet and contact the owner.
 
 ## Technologies Used
-- **Laravel 11**: Backend API, authentication, policies, and service container
+- **Laravel 12**: Backend API, authentication, policies, and service container
 - **Sanctum**: Stateless API authentication
 - **PHPUnit**: Unit and feature testing
 - **SQLite**: Default for local development (MySQL/Postgres also supported)

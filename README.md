@@ -18,7 +18,7 @@ This project follows a **strict layered architecture** to ensure separation of c
 ┌─────────────────────────────────────────────┐
 │         Controllers (HTTP Layer)            │  ← Receives requests, returns responses
 ├─────────────────────────────────────────────┤
-│         Form Requests (Validation)          │  ← Validates input, creates DTOs
+│         Form Requests (Validation)          │  ← Validates input, creates DTOs, Authorization with policies
 ├─────────────────────────────────────────────┤
 │         Actions (Use Cases)                 │  ← Orchestrates business logic
 ├─────────────────────────────────────────────┤

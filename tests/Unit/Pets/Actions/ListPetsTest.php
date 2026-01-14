@@ -30,4 +30,10 @@ class ListPetsTest extends TestCase
         $this->assertCount(3, $result);
         $this->assertEquals(['Buddy', 'Max', 'Kitty'], $result->pluck('name')->values()->toArray());
     }
+
+    protected function tearDown(): void
+    {
+        \Mockery::close();
+        parent::tearDown();
+    }
 }

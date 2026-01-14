@@ -64,4 +64,10 @@ class GetPublicPetTest extends TestCase
         $this->assertNull($result->notes);
         $this->assertEquals('Owner Two', $result->user->name);
     }
+
+    protected function tearDown(): void
+    {
+        \Mockery::close();
+        parent::tearDown();
+    }
 }

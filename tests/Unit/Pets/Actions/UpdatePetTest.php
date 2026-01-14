@@ -24,4 +24,10 @@ class UpdatePetTest extends TestCase
         $updatedPet = $action($pet, $data);
         $this->assertEquals($pet, $updatedPet);
     }
+
+    protected function tearDown(): void
+    {
+        \Mockery::close();
+        parent::tearDown();
+    }
 }

@@ -18,7 +18,7 @@ This project follows a **strict layered architecture** to ensure separation of c
 ┌─────────────────────────────────────────────┐
 │         Controllers (HTTP Layer)            │  ← Receives requests, returns responses
 ├─────────────────────────────────────────────┤
-│         Form Requests (Validation)          │  ← Validates input, creates DTOs
+│         Form Requests (Validation)          │  ← Validates input, creates DTOs, Authorize with polices
 ├─────────────────────────────────────────────┤
 │         Actions (Use Cases)                 │  ← Orchestrates business logic
 ├─────────────────────────────────────────────┤
@@ -47,7 +47,7 @@ This project follows a **strict layered architecture** to ensure separation of c
 **Responsibility**: Immutable data transfer between layers
 - Type-safe data structures
 - No business logic
-- Provide `toArray()` methods for persistence]
+- Provide `toArray()` methods for persistence
 
 #### 4. **Actions** (`app/Actions/`)
 **Responsibility**: Single use-case per action (business logic orchestration)
@@ -81,10 +81,9 @@ This project follows a **strict layered architecture** to ensure separation of c
 
 ### 🔒 Design Principles
 
-1. **Dependency Inversion**: Actions depend on repository interfaces, not concrete implementations
-2. **Single Responsibility**: Each class has one reason to change
-3. **Separation of Concerns**: HTTP, validation, business logic, and persistence are isolated
-4. **Testability**: Each layer can be tested independently with mocks
+1. **Single Responsibility**: Each class has one reason to change
+2. **Separation of Concerns**: HTTP, validation, business logic, and persistence are isolated
+3. **Testability**: Each layer can be tested independently with mocks
 
 ### 🧪 Testing Strategy
 

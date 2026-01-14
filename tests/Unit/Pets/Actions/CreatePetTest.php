@@ -3,27 +3,40 @@
 namespace Tests\Unit\Pets\Actions;
 
 use App\Actions\Pets\CreatePet;
+use App\Data\Pets\CreatePetData;
 use App\Models\Pet;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Repositories\Pets\PetRepositoryInterface;
 use Tests\TestCase;
 
 class CreatePetTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_create_pet_action_creates_pet(): void
     {
-        $user = User::factory()->create();
-        $petData = [
+        $user = User::factory()->make();
+        $data = new CreatePetData(
+            name: 'Buddy',
+            type: 'Dog',
+            breed: 'Labrador',
+            notes: 'Friendly dog',
+        );
+
+        $createdPet = new Pet([
             'name' => 'Buddy',
             'type' => 'Dog',
             'breed' => 'Labrador',
             'notes' => 'Friendly dog',
-        ];
+            'qr_code' => 'QR123',
+        ]);
 
-        $action = new CreatePet;
-        $result = $action($user, $petData);
+        $repo = \Mockery::mock(PetRepositoryInterface::class);
+        $repo->shouldReceive('createForUser')
+            ->once()
+            ->with($user, \Mockery::type(CreatePetData::class))
+            ->andReturn($createdPet);
+
+        $action = new CreatePet($repo);
+        $result = $action($user, $data);
 
         $this->assertInstanceOf(Pet::class, $result);
         $this->assertEquals('Buddy', $result->name);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Pets;
 
+use App\Models\Pet;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowPetRequest extends FormRequest
@@ -10,7 +11,7 @@ class ShowPetRequest extends FormRequest
     {
         $pet = $this->route('pet');
 
-        return $pet && $this->user()->can('view', $pet);
+        return $pet instanceof Pet ? $this->user()->can('view', $pet) : false;
     }
 
     public function rules(): array

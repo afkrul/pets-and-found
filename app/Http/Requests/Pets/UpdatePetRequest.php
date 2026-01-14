@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Pets;
 
+use App\Data\Pets\UpdatePetData;
+use App\Models\Pet;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePetRequest extends FormRequest
@@ -14,7 +16,11 @@ class UpdatePetRequest extends FormRequest
         $user = $this->user();
         $pet = $this->route('pet');
 
-        return $user ? $user->can('update', $pet) : false;
+        if (! $user) {
+            return false;
+        }
+
+        return $pet instanceof Pet ? $user->can('update', $pet) : false;
     }
 
     /**
@@ -30,5 +36,13 @@ class UpdatePetRequest extends FormRequest
             'breed' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string', 'max:1000'],
         ];
+    }
+
+    /**
+     * Return a typed DTO representing this request
+     */
+    public function dto(): UpdatePetData
+    {
+        return UpdatePetData::fromRequest($this);
     }
 }

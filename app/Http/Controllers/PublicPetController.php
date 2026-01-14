@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Pets\GetPublicPet;
 use App\Http\Resources\PublicPetResource;
-use App\Models\Pet;
+use App\Queries\PublicPetLookup;
 
 class PublicPetController extends Controller
 {
@@ -14,9 +13,9 @@ class PublicPetController extends Controller
      * @param  string  $qrCode  The pet's QR code
      * @return \Illuminate\Http\Response
      */
-    public function show(string $qrCode, GetPublicPet $getPublicPet)
+    public function show(string $qrCode, PublicPetLookup $lookup)
     {
-        $pet = $getPublicPet($qrCode);
+        $pet = $lookup->byQrCode($qrCode);
 
         return new PublicPetResource($pet);
     }

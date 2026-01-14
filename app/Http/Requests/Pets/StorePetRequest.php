@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Pets;
 
+use App\Data\Pets\CreatePetData;
 use App\Models\Pet;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -30,5 +31,13 @@ class StorePetRequest extends FormRequest
             'breed' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string', 'max:1000'],
         ];
+    }
+
+    /**
+     * Return a typed DTO representing this request
+     */
+    public function dto(): CreatePetData
+    {
+        return CreatePetData::fromRequest($this);
     }
 }

@@ -11,9 +11,9 @@ use App\Http\Requests\Pets\DestroyPetRequest;
 use App\Http\Requests\Pets\ShowPetRequest;
 use App\Http\Requests\Pets\StorePetRequest;
 use App\Http\Requests\Pets\UpdatePetRequest;
+use App\Http\Resources\PetResource;
 use App\Models\Pet;
-use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class PetController extends Controller
 {
@@ -22,12 +22,11 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FormRequest $request, ListPets $listPets)
+    public function index(Request $request, ListPets $list)
     {
-        $user = $request->user();
-        $fetchedPets = $listPets($user);
+        $fetchedPets = ($list)($request->user());
 
-        return response()->json($fetchedPets);
+        return PetResource::collection($fetchedPets);
     }
 
     /**
@@ -35,12 +34,11 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(ShowPetRequest $request, Pet $pet, GetPet $getPet)
+    public function show(ShowPetRequest $request, Pet $pet, GetPet $get)
     {
-        $user = $request->user();
-        $fetchedPet = $getPet($user, $pet);
+        $fetchedPet = $get($request->user(), $pet);
 
-        return response()->json($fetchedPet);
+        return new PetResource($fetchedPet);
     }
 
     /**
@@ -48,13 +46,11 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePetRequest $request, CreatePet $createPet)
+    public function store(StorePetRequest $request, CreatePet $create)
     {
-        $user = $request->user();
-        $petData = $request->validated();
-        $pet = $createPet($user, $petData);
+        $pet = $create($request->user(), $request->dto());
 
-        return response()->json($pet, 201); // Created
+        return new PetResource($pet);
     }
 
     /**
@@ -62,12 +58,11 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePetRequest $request, Pet $pet, UpdatePet $updatePet)
+    public function update(UpdatePetRequest $request, Pet $pet, UpdatePet $update)
     {
-        $petData = $request->validated();
-        $updatedPet = $updatePet($pet, $petData);
+        $updatedPet = $update($pet, $request->dto());
 
-        return response()->json($updatedPet);
+        return new PetResource($updatedPet);
     }
 
     /**
@@ -75,11 +70,10 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DestroyPetRequest $request, Pet $pet, DeletePet $deletePet)
+    public function destroy(DestroyPetRequest $request, Pet $pet, DeletePet $delete)
     {
-        $user = $request->user();
-        $deletePet($user, $pet);
+        $delete($request->user(), $pet);
 
-        return response()->json(null, 204); // No Content
+        return response()->noContent();
     }
 }

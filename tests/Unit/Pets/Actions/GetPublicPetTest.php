@@ -1,51 +1,61 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Pets\Actions;
 
 use App\Actions\Pets\GetPublicPet;
 use App\Models\Pet;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Repositories\Pets\PetRepositoryInterface;
 use Tests\TestCase;
 
 class GetPublicPetTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_get_public_pet_by_qr_code_returns_pet_with_user()
     {
-        $user = User::factory()->create(['name' => 'Owner One']);
-
-        $pet = Pet::factory()->for($user)->create([
+        $user = User::factory()->make(['name' => 'Owner One']);
+        $pet = new Pet([
             'qr_code' => 'QRUNIT123',
             'name' => 'Buddy',
             'type' => 'Dog',
             'breed' => 'Beagle',
             'notes' => 'Friendly',
         ]);
+        $pet->setRelation('user', $user);
 
-        $action = new GetPublicPet;
+        $repo = \Mockery::mock(PetRepositoryInterface::class);
+        $repo->shouldReceive('getByQrCode')
+            ->once()
+            ->with('QRUNIT123')
+            ->andReturn($pet);
+
+        $action = new GetPublicPet($repo);
 
         $result = $action('QRUNIT123');
 
         $this->assertInstanceOf(Pet::class, $result);
-        $this->assertEquals($pet->id, $result->id);
+        $this->assertEquals($pet->qr_code, $result->qr_code);
         $this->assertEquals('Owner One', $result->user->name);
     }
 
     public function test_get_public_pet_handles_null_optional_fields()
     {
-        $user = User::factory()->create(['name' => 'Owner Two']);
-
-        $pet = Pet::factory()->for($user)->create([
+        $user = User::factory()->make(['name' => 'Owner Two']);
+        $pet = new Pet([
             'qr_code' => 'QRUNITNULL',
             'name' => 'Shadow',
             'type' => 'Cat',
             'breed' => null,
             'notes' => null,
         ]);
+        $pet->setRelation('user', $user);
 
-        $action = new GetPublicPet;
+        $repo = \Mockery::mock(PetRepositoryInterface::class);
+        $repo->shouldReceive('getByQrCode')
+            ->once()
+            ->with('QRUNITNULL')
+            ->andReturn($pet);
+
+        $action = new GetPublicPet($repo);
 
         $result = $action('QRUNITNULL');
 

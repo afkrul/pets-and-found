@@ -4,6 +4,7 @@ namespace Tests\Unit\Pets\Actions;
 
 use App\Actions\Pets\DeletePet;
 use App\Models\User;
+use App\Repositories\Pets\PetRepositoryInterface;
 use Tests\TestCase;
 
 class DeletePetTest extends TestCase
@@ -13,16 +14,13 @@ class DeletePetTest extends TestCase
         $pet = \Mockery::mock(\App\Models\Pet::class)->makePartial();
         $user = \Mockery::mock(User::class)->makePartial();
 
-        $user->shouldReceive('pets->findOrFail')
+        $repo = \Mockery::mock(PetRepositoryInterface::class);
+        $repo->shouldReceive('delete')
             ->once()
-            ->with($pet->id)
-            ->andReturn($pet);
+            ->with($pet)
+            ->andReturnNull();
 
-        $pet->shouldReceive('delete')
-            ->once()
-            ->andReturn(true);
-
-        $action = new DeletePet;
+        $action = new DeletePet($repo);
         $action($user, $pet);
         $this->addToAssertionCount(1); // Acknowledge mock expectation as assertion
     }

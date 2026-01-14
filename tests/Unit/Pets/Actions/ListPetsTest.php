@@ -4,6 +4,7 @@ namespace Tests\Unit\Pets\Actions;
 
 use App\Actions\Pets\ListPets;
 use App\Models\User;
+use App\Repositories\Pets\PetRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
 
@@ -18,16 +19,13 @@ class ListPetsTest extends TestCase
             new \App\Models\Pet(['name' => 'Kitty']),
         ]);
 
-        $petsRelation = \Mockery::mock('Illuminate\Database\Eloquent\Relations\HasMany');
-        $petsRelation->shouldReceive('get')
+        $repo = \Mockery::mock(PetRepositoryInterface::class);
+        $repo->shouldReceive('listForUser')
             ->once()
+            ->with($user)
             ->andReturn($pets);
 
-        $user->shouldReceive('pets')
-            ->once()
-            ->andReturn($petsRelation);
-
-        $action = new ListPets;
+        $action = new ListPets($repo);
         $result = $action($user);
         $this->assertCount(3, $result);
         $this->assertEquals(['Buddy', 'Max', 'Kitty'], $result->pluck('name')->values()->toArray());

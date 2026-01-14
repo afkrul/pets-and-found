@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Pets;
 
+use App\Models\Pet;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DestroyPetRequest extends FormRequest
@@ -11,7 +12,7 @@ class DestroyPetRequest extends FormRequest
         $user = $this->user();
         $pet = $this->route('pet');
 
-        return $pet && $user->can('delete', $pet);
+        return $user && $pet instanceof Pet ? $user->can('delete', $pet) : false;
     }
 
     public function rules(): array

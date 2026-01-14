@@ -14,7 +14,7 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 // Private API routes for authenticated users
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('pets', PetController::class);
-    Route::get('/pets/{pet}/qr-code', [QrCodeController::class, 'getQrCode']);
+    Route::get('/pets/{pet}/qr-code', [QrCodeController::class, 'getQrCode']); // Get QR code image for a pet
 });
 
 // Public endpoint to fetch basic pet info by qr code (no ids or contact details)

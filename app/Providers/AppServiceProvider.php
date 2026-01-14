@@ -15,8 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(PetRepositoryInterface::class, EloquentPetRepository::class);
         $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
+        $this->app->bind(PetRepositoryInterface::class, EloquentPetRepository::class);
     }
 
     /**

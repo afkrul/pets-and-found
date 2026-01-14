@@ -3,9 +3,12 @@
 namespace App\Actions\Pets;
 
 use App\Models\Pet;
+use App\Repositories\Pets\PetRepositoryInterface;
 
 class GetPublicPet
 {
+    public function __construct(private PetRepositoryInterface $pets) {}
+
     /**
      * Return a public pet by its QR code.
      *
@@ -16,6 +19,6 @@ class GetPublicPet
      */
     public function __invoke(string $qrCode): Pet
     {
-        return Pet::where('qr_code', $qrCode)->with('user')->firstOrFail();
+        return $this->pets->getByQrCode($qrCode);
     }
 }
